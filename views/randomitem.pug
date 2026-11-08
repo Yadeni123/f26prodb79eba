@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+
+  -
+    let image_names = [
+      "hammer.jpg",
+      "screwdriver.jpg",
+      "wrench.jpg",
+      "drill.jpg",
+      "pliers.jpg"
+    ]
+
+  - for(let i = 0; i < 3; i++) {
+    - let randIndex = Math.floor(Math.random() * 5);
+    - let imageName = image_names[randIndex];
+    img(src=`/images/${imageName}`, alt=imageName, height="300", width="300")
+  - }

@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+
+  p Query parameters: rows: #{query.rows}, cols: #{query.cols}
+
+  - let rowsNum = Number(rows)
+  - let colsNum = Number(cols)
+
+  if !Number.isInteger(rowsNum) || !Number.isInteger(colsNum)
+    p Error: Rows and Cols must be valid integers.
+  else if rowsNum < 1 || rowsNum > 10
+    p Error: Rows must be an integer between 1 and 10.
+  else if colsNum < 1 || colsNum > 10
+    p Error: Cols must be an integer between 1 and 10.
+  else
+    table.table.table-bordered.m-3
+      - for(let i = 0; i < rowsNum; i++) {
+        tr
+          - for(let j = 0; j < colsNum; j++) {
+            td= j - i
+          - }
+      - }
