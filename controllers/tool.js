@@ -17,8 +17,20 @@ exports.tool_detail = function(req, res) {
 };
 
 // Handle Tool create on POST.
-exports.tool_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Tool create POST');
+exports.tool_create_post = async function(req, res) {
+    console.log(req.body);
+    let document = new Tool();
+    // We are looking for a body, since POST data comes from the request body
+    document.tool_type = req.body.tool_type;
+    document.size = req.body.size;
+    document.cost = req.body.cost;
+    try {
+        let result = await document.save();
+        res.send(result);
+    } catch (err) {
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+    }
 };
 
 // Handle Tool delete from on DELETE.
