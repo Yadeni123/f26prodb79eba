@@ -3,20 +3,15 @@ extends layout
 block content
   h1= title
   
-  -
-    let results = [
-      { tool_name: "Hammer", weight: 2, material: "Steel" },
-      { tool_name: "Screwdriver", weight: 1, material: "Plastic" },
-      { tool_name: "Wrench", weight: 3, material: "Iron" }
-    ]
+  - let items = results
 
   div.container-fluid
     div.row
-      each item, index in results
+      each item, index in items
         div.col-sm-2(onclick=`buy(${index})`, style="cursor: pointer; border: 1px solid #ccc; padding: 10px; margin: 5px;")
-          p Name: #{item.tool_name}
-          p Weight: #{item.weight}
-          p Material: #{item.material}
+          p Tool Type: #{item.tool_type}
+          p Size: #{item.size}
+          p Cost: #{item.cost}
 
   script.
     function buy(index) {
