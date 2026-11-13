@@ -12,8 +12,15 @@ exports.tool_list = async function(req, res) {
 };
 
 // for a specific Tool.
-exports.tool_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: Tool detail: ' + req.params.id);
+exports.tool_detail = async function(req, res) {
+    console.log("detail " + req.params.id);
+    try {
+        let result = await Tool.findById(req.params.id);
+        res.send(result);
+    } catch (error) {
+        res.status(500);
+        res.send(`{"error": document for id ${req.params.id} not found}`);
+    }
 };
 
 // Handle Tool create on POST.
@@ -39,6 +46,21 @@ exports.tool_delete = function(req, res) {
 };
 
 // Handle Tool update form on PUT.
-exports.tool_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Tool update PUT ' + req.params.id);
+exports.tool_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
+    try {
+        let toUpdate = await Tool.findById(req.params.id);
+        
+        // Update the properties if they are sent in the request body
+        if (req.body.tool_type) toUpdate.tool_type = req.body.tool_type;
+        if (req.body.size) toUpdate.size = req.body.size;
+        if (req.body.cost) toUpdate.cost = req.body.cost;
+        
+        let result = await toUpdate.save();
+        console.log("Update success");
+        res.send(result);
+    } catch (error) {
+        res.status(500);
+        res.send(`{"error": Update for id ${req.params.id} failed: ${error}}`);
+    }
 };
